@@ -67,9 +67,8 @@ default['kapacitor']['base_dir']                  = node['hopsmonitor']['dir'] +
 default['kapacitor']['pid_file']                  = "/tmp/kapacitor.pid"
 default['kapacitor']['notify']['email']              = ""
 default['kapacitor']['slack_enabled']             = "false"
-default['kapacitor']['slack']                     = node['kapacitor']['slack_enabled'] == "true" ? true : false
-default['kapacitor']['slack_url']                 = ""
-default['kapacitor']['slack_channel']             = ""
+default['kapacitor']['slack_url']                 = "https://hooks.slack.com/services/********/********/******"
+default['kapacitor']['slack_channel']             = "#hops"
 
 default['hopsmonitor']['default']['private_ips']  = ['10.0.2.15']
 default['hopsmonitor']['default']['public_ips']   = ['10.0.2.15']

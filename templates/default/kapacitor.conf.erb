@@ -187,21 +187,23 @@ default-retention-policy = ""
 
 [slack]
   # Configure Slack.
-  enabled = <%= node['kapacitor']['slack'] %>
+  enabled = <%= node['kapacitor']['slack_enabled'] %>
   # The Slack webhook URL, can be obtained by adding
   # an Incoming Webhook integration.
   # Visit https://slack.com/services/new/incoming-webhook
   # to add new webhook for Kapacitor.
-  url = ""
+  url = "<%= node['kapacitor']['slack_url'] %>"
   # Default channel for messages
-  channel = ""
+  channel = "<%= node['kapacitor']['slack_channel'] %>"
   # If true all the alerts will be sent to Slack
   # without explicitly marking them in the TICKscript.
   global = false
   # Only applies if global is true.
   # Sets all alerts in state-changes-only mode,
   # meaning alerts will only be sent if the alert state changes.
-  state-changes-only = false
+  state-changes-only = true
+  username = “kapacitor”
+  icon-emoji = ""
 
 [hipchat]
   # Configure HipChat.
