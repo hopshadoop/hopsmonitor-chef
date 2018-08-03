@@ -174,8 +174,14 @@ else #sysv
 end
 
 if node['kagent']['enabled'] == "true"
-   kagent_config "telegraf" do
+   kagent_config service_name do
      service "Monitoring"
      log_file "#{node['telegraf']['base_dir']}/log/telegraf.log"
    end
 end
+
+if node['install']['upgrade'] == "true"
+  kagent_config "#{service_name}" do
+    action :systemd_reload
+  end
+end  

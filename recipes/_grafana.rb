@@ -206,3 +206,8 @@ curl --user #{node['grafana']['admin_user']}:#{node['grafana']['admin_password']
 #     not_if { }
 end
 
+if node['install']['upgrade'] == "true"
+  kagent_config "#{service_name}" do
+    action :systemd_reload
+  end
+end  

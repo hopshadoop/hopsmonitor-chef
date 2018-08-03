@@ -6,12 +6,12 @@ group node['hopsmonitor']['group'] do
 end
 
 user node['hopsmonitor']['user'] do
-  home "/home/#{node['hopsmonitor']['user']}"
+#  home "/home/#{node['hopsmonitor']['user']}"
   gid node['hopsmonitor']['group']
   action :create
   system true
   shell "/bin/bash"
-  manage_home true
+#  manage_home true
   not_if "getent passwd #{node['hopsmonitor']['user']}"
 end
 
