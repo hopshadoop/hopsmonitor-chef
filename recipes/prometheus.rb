@@ -21,6 +21,33 @@ directory node['prometheus']['root_dir'] do
   action :create
 end
 
+directory node['prometheus']['data_volume']['data_dir'] do
+  owner node['hopsmonitor']['user']
+  group node['hopsmonitor']['group']
+  mode '0750'
+  recursive true
+  action :create
+end
+
+bash 'Move prometheus data to data volume' do
+  user 'root'
+  code <<-EOH
+    set -e
+    mv -f #{node['prometheus']['data_dir']}/* #{node['prometheus']['data_volume']['data_dir']}
+    rm -rf #{node['prometheus']['data_dir']}
+  EOH
+  only_if { conda_helpers.is_upgrade }
+  only_if { File.directory?(node['prometheus']['data_dir'])}
+  not_if { File.symlink?(node['prometheus']['data_dir'])}
+end
+
+link node['prometheus']['data_dir'] do
+  owner node['hopsmonitor']['user']
+  group node['hopsmonitor']['group']
+  mode '0750'
+  to node['prometheus']['data_volume']['data_dir']
+end
+
 prometheus_downloaded= "#{node['prometheus']['home']}/.prometheus.extracted_#{node['prometheus']['version']}"
 # Extract prometheus 
 bash 'extract_prometheus' do

@@ -27,6 +27,10 @@ default['prometheus']['version']                  = "2.10.0"
 default['prometheus']['url']                      = "#{node['download_url']}/prometheus/prometheus-#{node['prometheus']['version']}.linux-amd64.tar.gz"
 default['prometheus']['root_dir']                 = "#{node['hopsmonitor']['dir']}/prometheus"
 
+# Data volume directories
+default['prometheus']['data_volume']['root_dir']  = "#{node['data']['dir']}/prometheus"
+default['prometheus']['data_volume']['data_dir']  = "#{node['prometheus']['data_volume']['root_dir']}/prometheus-data"
+
 default['prometheus']['home']                     = "#{node['prometheus']['root_dir']}/prometheus-#{node['prometheus']['version']}.linux-amd64"
 default['prometheus']['base_dir']                 = "#{node['prometheus']['root_dir']}/prometheus"
 default['prometheus']['data_dir']                 = "#{node['prometheus']['root_dir']}/prometheus-data"
@@ -45,6 +49,10 @@ default['alertmanager']['port']                     = "9093"
 default['alertmanager']['version']                  = "0.17.0"
 default['alertmanager']['url']                      = "#{node['download_url']}/prometheus/alertmanager-#{node['alertmanager']['version']}.linux-amd64.tar.gz"
 default['alertmanager']['root_dir']                 = "#{node['hopsmonitor']['dir']}/alertmanager"
+
+# Data volume directories
+default['alertmanager']['data_volume']['root_dir']  = "#{node['data']['dir']}/alertmanager"
+default['alertmanager']['data_volume']['data_dir']  = "#{node['alertmanager']['data_volume']['root_dir']}/alertmanager-data"
 
 default['alertmanager']['home']                     = "#{node['alertmanager']['root_dir']}/alertmanager-#{node['alertmanager']['version']}.linux-amd64"
 default['alertmanager']['base_dir']                 = "#{node['alertmanager']['root_dir']}/alertmanager"

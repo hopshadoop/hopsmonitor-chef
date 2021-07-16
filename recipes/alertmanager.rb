@@ -17,11 +17,31 @@ directory node['alertmanager']['root_dir'] do
   action :create
 end
 
-directory node['alertmanager']['data_dir'] do
+directory node['alertmanager']['data_volume']['data_dir'] do
   owner node['hopsmonitor']['user']
   group node['hopsmonitor']['group']
   mode '0750'
+  recursive true
   action :create
+end
+
+bash 'Move alertmanager data to data volume' do
+  user 'root'
+  code <<-EOH
+    set -e
+    mv -f #{node['alertmanager']['data_dir']}/* #{node['alertmanager']['data_volume']['data_dir']}
+    rm -rf #{node['alertmanager']['data_dir']}
+  EOH
+  only_if { conda_helpers.is_upgrade }
+  only_if { File.directory?(node['alertmanager']['data_dir'])}
+  not_if { File.symlink?(node['alertmanager']['data_dir'])}
+end
+
+link node['alertmanager']['data_dir'] do
+  owner node['hopsmonitor']['user']
+  group node['hopsmonitor']['group']
+  mode '0750'
+  to node['alertmanager']['data_volume']['data_dir']
 end
 
 remote_directory node['alertmanager']['tmpl_dir'] do 
